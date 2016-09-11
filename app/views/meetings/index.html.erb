@@ -4,10 +4,19 @@
   <p>
     Tags:
     <% meeting.tags.each do |tag| %>
-      <a href="/meetings?tag=<%= tag.name %>"><%= tag.name %></a>  
+      <a href="/meetings?tag=<%= tag.name %>"><%= tag.name %></a>
     <% end %>
   </p>
   <p>Address: <%= meeting.address %></p>
   <p>Start time: <%= meeting.start_time %></p>
   <p>End time: <%= meeting.end_time %></p>
 <% end %>
+
+
+
+<div ng-app="app">
+  {{ 1 + 1 }}
+  <div ng-controller="testCtrl">
+    {{message}}
+  </div>
+</div>
