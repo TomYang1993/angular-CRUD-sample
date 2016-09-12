@@ -1,31 +1,59 @@
-
-
-
-
-
-
 <div ng-app="app">
-  {{ 1 + 1 }}
   <div ng-controller="meetingsCtrl" ng-init="setup()">
     {{message}}
 
 
-
-
     <h1><a href="/meetings">All meetings</a></h1>
 
-  <div ng-repeat="meeting in meetings">
-      <h3><a href="/meetings/{{meeting.id}} %>">{{meeting.name}} </a></h3>
-      <p>
-        Tags:
-        <div ng-repeat="tag in meeting.tags">
-          <a href="/meetings?tag={{tag.name}}">{{tag.name}}</a>
+    <input ng-model="nameFilter" list="names">
+
+    <datalist id="names">
+      <option ng-repeat="meeting in meetings">{{ meeting.name }}</option>
+    </datalist>
+
+    <div ><button ng-click="orderAttribute('name')"> Order by name </button></div>
+
+      <div ng-repeat="meeting in meetings| filter: {name: nameFilter} | orderBy:attribute:upOrdown">
+          <h3><a href="/meetings/{{meeting.id}} %>">{{meeting.name}} </a></h3>
+          <p>
+            Tags:
+            <div ng-repeat="tag in meeting.tags">
+              <a href="/meetings?tag={{tag.name}}">{{tag.name}}</a>
+            </div>
+          </p>
+          <p>Address: {{meeting.address}}  %></p>
+          <p>Start time: {{meeting.start_time}}</p>
+          <p>End time: {{meeting.end_time}}</p>
+          <hr>
+      </div>
+
+
+      <h2>Create a new meeting</h2>
+      <form>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" ng-model="meeting.name">
         </div>
-      </p>
-      <p>Address: {{meeting.address}}  %></p>
-      <p>Start time: {{meeting.start_time}}</p>
-      <p>End time: {{meeting.end_time}}</p>
-  </div>
+        <div>
+          <label for="address">Address</label>
+          <input type="text" name="address" id="address" ng-model="meeting.address">
+        </div>
+        <div>
+          <label for="start_time">Start time</label>
+          <input type="datetime-local" name="start_time" id="start_time" value="" ng-model="meeting.start_time">
+        </div>
+        <div>
+          <label for="end_time">End time</label>
+          <input type="datetime-local" name="end_time" id="end_time" value="" ng-model="meeting.end_time">
+        </div>
+        <div>
+          <label for="notes">Notes</label>
+          <textarea name="notes" id="notes" cols="30" rows="10" ng-model="meeting.notes"></textarea>
+        </div>
+        <div>
+          <button ng-click="createNew(meeting)"> Create! </button>
+        </div>
+      </form>
 
 
 
